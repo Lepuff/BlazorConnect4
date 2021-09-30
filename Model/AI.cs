@@ -77,10 +77,11 @@ namespace BlazorConnect4.AIModels
         public float DrawMoveReward = 0F;
 
         // Statistics
-        public int wins = 0;
-        public int losses = 0;
-        public int ties = 0;
-        public int invalidMoves = 0;
+        public long wins = 0;
+        public long losses = 0;
+        public long ties = 0;
+        public long playedGames = 0;
+        
 
         
 
@@ -353,6 +354,7 @@ namespace BlazorConnect4.AIModels
             CellColor opponenentColor = GameEngineTwo.OtherPlayer(PlayerColor);
             for (int i = 0; i < iterations; i++)
             {
+                playedGames++;
                 // new iteration, reset the gameBoard and playerturn
                 gameEngine.Reset();
                 bool terminal = false;
@@ -374,11 +376,13 @@ namespace BlazorConnect4.AIModels
                     {
                         SetQValue(gameEngine.Board.Grid, action, WinningMoveReward);
                         terminal = true;
+                        wins++;
                     }
                     else if (GameEngineTwo.IsDraw(gameEngine.Board, action))
                     {
                         SetQValue(gameEngine.Board.Grid, action, DrawMoveReward);
                         terminal = true;
+                        ties++;
                     }
                     else
                     {
@@ -396,13 +400,13 @@ namespace BlazorConnect4.AIModels
                         if (GameEngineTwo.IsWin(temporaryBoard, opponentAction, opponenentColor))
                         {
                             SetQValue(gameEngine.Board.Grid, action, LosingMoveReward); //set the q values for the move that led to the opponents win
-                            
+                            losses++;
                             break;
                         }
                         else if (GameEngineTwo.IsDraw(temporaryBoard, opponentAction)) 
                         {
                             SetQValue(gameEngine.Board.Grid, action, DrawMoveReward); //set the q values for the move that led to opponents draw move.
-                            
+                            ties++;
                             break;
                         }
                         //take the opponent move
