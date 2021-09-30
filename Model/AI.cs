@@ -260,7 +260,7 @@ namespace BlazorConnect4.AIModels
             }
             return isTerminalState;
         }
-
+        /*
         public void Workout(AI oppositeAi, int iterations)
         {
             double epsilon = 0.7F;
@@ -339,6 +339,7 @@ namespace BlazorConnect4.AIModels
                 }
             }
         }
+        */
 
         public  void WorkoutV2(AI opponentAi ,int iterations)
         {
@@ -381,15 +382,15 @@ namespace BlazorConnect4.AIModels
                     }
                     else
                     {
-                        //Q(a,s)
+                        //Q(s,a)
                         double currentVal = GetQValue(gameEngine.Board.Grid, action);
 
-                        //Now take the best move if we have taken the choosen action.
+                        
                         GameBoard temporaryBoard = gameEngine.Board.Copy(); // make a non-reference copy of the gameboard.
                         //take action Q(s,a)
                         GameEngineTwo.MakeMove(ref temporaryBoard, PlayerColor, action);
 
-                        //let the oppnent take a move
+                        //let the opponent take a move
                         opponentAction = opponentAi.SelectMove(temporaryBoard.Grid);
                         //observe if the oppents move is terminal, in that case update the values for our move that led to that possibility
                         if (GameEngineTwo.IsWin(temporaryBoard, opponentAction, opponenentColor))
@@ -398,13 +399,13 @@ namespace BlazorConnect4.AIModels
                             
                             break;
                         }
-                        else if (GameEngineTwo.IsDraw(temporaryBoard, action))
+                        else if (GameEngineTwo.IsDraw(temporaryBoard, opponentAction)) 
                         {
-                            SetQValue(gameEngine.Board.Grid, action, DrawMoveReward);
+                            SetQValue(gameEngine.Board.Grid, action, DrawMoveReward); //set the q values for the move that led to opponents draw move.
                             
                             break;
                         }
-                        //take the oponent move
+                        //take the opponent move
                         GameEngineTwo.MakeMove(ref temporaryBoard, opponenentColor, opponentAction);
 
                         //the opponentMove  is not terminal  Continue by observing the Q value of the best move in this new state.

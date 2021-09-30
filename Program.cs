@@ -40,15 +40,15 @@ namespace BlazorConnect4
             
 
 
-            //AIModels.QAgent RedAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/RedV3.bin");
-            //AIModels.QAgent YellowAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/YellowV3.bin");
+            AIModels.QAgent RedAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/RedV3.bin");
+            AIModels.QAgent YellowAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/YellowV3.bin");
 
-            AIModels.QAgent RedAi = new AIModels.QAgent(Model.CellColor.Red);
-            AIModels.QAgent YellowAi = new AIModels.QAgent(Model.CellColor.Yellow);
+            //AIModels.QAgent RedAi = new AIModels.QAgent(Model.CellColor.Red);
+            //AIModels.QAgent YellowAi = new AIModels.QAgent(Model.CellColor.Yellow);
 
             AIModels.RandomAI randomAI = new AIModels.RandomAI();
-            RedAi.WorkoutV2( randomAI, 1000);
-            YellowAi.WorkoutV2(randomAI, 1000);
+            //RedAi.WorkoutV2( randomAI, 1000);
+            //YellowAi.WorkoutV2(randomAI, 1000);
 
 
             for (int i = 0; i < 100; i++)

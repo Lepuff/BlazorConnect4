@@ -382,10 +382,6 @@ namespace BlazorConnect4.Model
             return true;
         }
 
-        /*public CellColor OtherPlayer(CellColor player)
-        {
-            return player == CellColor.Red ? CellColor.Yellow : CellColor.Red;
-        }*/
 
         public bool IsWin(CellColor player)
         {
