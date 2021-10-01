@@ -241,7 +241,7 @@ namespace BlazorConnect4.AIModels
                 if (PlayerColor == CellColor.Yellow)
                 {
                     //opponentAction = oppositeAi.SelectMove(gameEngine.Board.Grid);
-                    opponentAction = EpsilonGreedyAction(1, gameEngine.Board.Grid);
+                    opponentAction = EpsilonGreedyAction(1, gameEngine.Board.Grid); //Select a random move the first time to make sure we exercise versus all possible starting moves.
                     gameEngine.MakeMove(opponentAction);
                 }
 
@@ -250,7 +250,7 @@ namespace BlazorConnect4.AIModels
 
                 while (!terminal)
                 {
-
+                    
                     if (AiGameEngine.IsWin(gameEngine.Board, action, gameEngine.PlayerTurn))
                     {
                         SetQValue(gameEngine.Board.Grid, action, WinningMoveReward);
@@ -298,8 +298,6 @@ namespace BlazorConnect4.AIModels
                         double maxQvalueNextState = GetQValue(temporaryBoard.Grid, bestACtion);
                         //                                        Q(a,s)    + alpha * (gamma * Max(Q(a',s))       - Q(s,a)                                  
                         SetQValue(gameEngine.Board.Grid, action, currentVal + alpha * (gamma * maxQvalueNextState - currentVal));
-
-
 
                         //now take  epsilion greedy move to a new state. We can do so becuase we have already checked that they are not terminal.
                         gameEngine.MakeMove(action);
