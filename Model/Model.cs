@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
-using BlazorConnect4.AIModels;
-using System.Linq;
+﻿using BlazorConnect4.AIModels;
+using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace BlazorConnect4.Model
 {
@@ -23,7 +22,7 @@ namespace BlazorConnect4.Model
             Color = color;
         }
 
-        
+
 
         public override string ToString() // for debugging
         {
@@ -50,7 +49,7 @@ namespace BlazorConnect4.Model
             }
         }
 
-        public  GameBoard Copy() //TODO check so that this actually copies the values and not the references
+        public GameBoard Copy()
         {
             GameBoard copy = new GameBoard();
 
@@ -109,7 +108,7 @@ namespace BlazorConnect4.Model
         {
             return Board.Grid[col, 0].Color == CellColor.Blank;
         }
-        public  static bool IsValid(Cell[,] state , int col)
+        public static bool IsValid(Cell[,] state, int col)
         {
             return state[col, 0].Color == CellColor.Blank;
         }
@@ -130,7 +129,7 @@ namespace BlazorConnect4.Model
             }
             return true;
         }
-        public static bool IsDraw(GameBoard gameboard , int action)
+        public static bool IsDraw(GameBoard gameboard, int action)
         {
             GameBoard temp = gameboard.Copy();
             AiGameEngine.MakeMove(ref temp, CellColor.Yellow, action);
@@ -149,16 +148,16 @@ namespace BlazorConnect4.Model
         {
             return player == CellColor.Red ? CellColor.Yellow : CellColor.Red;
         }
-        public static bool IsWin(GameBoard gameBoard, int action,CellColor player)
+        public static bool IsWin(GameBoard gameBoard, int action, CellColor player)
         {
             int height = 6;
             int width = 7;
             bool isWin = false;
             GameBoard temp = gameBoard.Copy();
-            bool validmove = AiGameEngine.MakeMove(ref temp ,player,action);
+            bool validmove = AiGameEngine.MakeMove(ref temp, player, action);
             Cell[,] state = temp.Grid;
             Debug.Assert(validmove);
-            
+
             // horizontalCheck 
             for (int j = 0; j < height - 3; j++)
             {
@@ -170,7 +169,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // verticalCheck
                 for (int i = 0; i < width - 3; i++)
@@ -184,7 +183,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // ascendingDiagonalCheck 
                 for (int i = 3; i < width; i++)
@@ -197,7 +196,7 @@ namespace BlazorConnect4.Model
                 }
             }
 
-            if (isWin == false)
+            if (!isWin)
             {
                 // descendingDiagonalCheck
                 for (int i = 3; i < width; i++)
@@ -228,7 +227,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // verticalCheck
                 for (int i = 0; i < width - 3; i++)
@@ -242,7 +241,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // ascendingDiagonalCheck 
                 for (int i = 3; i < width; i++)
@@ -255,7 +254,7 @@ namespace BlazorConnect4.Model
                 }
             }
 
-            if (isWin == false)
+            if (!isWin)
             {
                 // descendingDiagonalCheck
                 for (int i = 3; i < width; i++)
@@ -272,26 +271,26 @@ namespace BlazorConnect4.Model
 
 
         public bool MakeMove(int action)
+        {
+            for (int i = 5; i >= 0; i -= 1)
             {
-            for (int i = 5; i >= 0; i -= 1) 
+                if (Board.Grid[action, i].Color == CellColor.Blank)
                 {
-                if(Board.Grid[action, i].Color == CellColor.Blank)
-                    {
                     Board.Grid[action, i].Color = PlayerTurn; //Make the move
                     PlayerTurn = OtherPlayer(PlayerTurn);//Switch player
                     return true;
-                    }
                 }
-            return false;//if a move is not valid    
             }
-        public static bool MakeMove(ref GameBoard board,CellColor playerColor, int action)
+            return false;//if a move is not valid    
+        }
+        public static bool MakeMove(ref GameBoard board, CellColor playerColor, int action)
         {
             for (int i = 5; i >= 0; i -= 1)
             {
                 if (board.Grid[action, i].Color == CellColor.Blank)
                 {
                     board.Grid[action, i].Color = playerColor; //Make the move
-                    
+
                     return true;
                 }
             }
@@ -322,8 +321,8 @@ namespace BlazorConnect4.Model
 
 
 
-        // Reset the game and creats the opponent.
-        // TODO change the code so new RL agents are created.
+
+
         public void Reset(String playAgainst)
         {
             Board = new GameBoard();
@@ -401,7 +400,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // verticalCheck
                 for (int i = 0; i < width - 3; i++)
@@ -415,7 +414,7 @@ namespace BlazorConnect4.Model
                     }
                 }
             }
-            if (isWin == false)
+            if (!isWin)
             {
                 // ascendingDiagonalCheck 
                 for (int i = 3; i < width; i++)
@@ -428,7 +427,7 @@ namespace BlazorConnect4.Model
                 }
             }
 
-            if (isWin == false)
+            if (!isWin)
             {
                 // descendingDiagonalCheck
                 for (int i = 3; i < width; i++)

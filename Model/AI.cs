@@ -1,8 +1,8 @@
-﻿using System;
-using BlazorConnect4.Model;
+﻿using BlazorConnect4.Model;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 
 namespace BlazorConnect4.AIModels
 {
@@ -67,29 +67,29 @@ namespace BlazorConnect4.AIModels
     public class QAgent : AI
     {
 
-        public Dictionary<String, double[]> Qdict;
-       
+        private Dictionary<String, double[]> Qdict;
+
         private CellColor PlayerColor;
         // Reward values
-        public float InvalidMoveReward = -0.5F;
-        public float WinningMoveReward = 1F;
-        public float LosingMoveReward = -1F;
-        public float DrawMoveReward = 0F;
+        private float InvalidMoveReward = -0.5F;
+        private float WinningMoveReward = 1F;
+        private float LosingMoveReward = -1F;
+        private float DrawMoveReward = 0F;
 
         // Statistics
-        public long wins = 0;
-        public long losses = 0;
-        public long ties = 0;
-        public long playedGames = 0;
-        
+        private long wins = 0;
+        private long losses = 0;
+        private long ties = 0;
+        private long playedGames = 0;
 
-        
 
-        
+
+
+
         public QAgent(CellColor playerColor)
         {
 
-            if(playerColor == CellColor.Red)
+            if (playerColor == CellColor.Red)
             {
                 PlayerColor = CellColor.Red;
             }
@@ -103,7 +103,7 @@ namespace BlazorConnect4.AIModels
             }
 
             Qdict = new Dictionary<String, double[]>();
-            
+
         }
 
 
@@ -153,7 +153,7 @@ namespace BlazorConnect4.AIModels
             while (!validMove)
             {
 
-                action = randomGen.Next(0,7);
+                action = randomGen.Next(0, 7);
                 validMove = AiGameEngine.IsValid(grid, action);
             }
             Debug.Assert(AiGameEngine.IsValid(grid, action));
@@ -177,7 +177,7 @@ namespace BlazorConnect4.AIModels
             while (!validMove)
             {
 
-                action = randomGen.Next(0,7);
+                action = randomGen.Next(0, 7);
                 validMove = AiGameEngine.IsValid(state, action);
             }
 
@@ -197,7 +197,7 @@ namespace BlazorConnect4.AIModels
                 {
                     action = random.Next(0, 7);
                 }
-                
+
             }
             else
             {
@@ -221,7 +221,7 @@ namespace BlazorConnect4.AIModels
         }
 
         //Train the current ai versus another AI for a chosen numbers of iterations.
-        public  void Workout(AI opponentAi ,int iterations)
+        public void Workout(AI opponentAi, int iterations)
         {
 
             double epsilon = 0.7F;
@@ -250,7 +250,7 @@ namespace BlazorConnect4.AIModels
 
                 while (!terminal)
                 {
-                    
+
                     if (AiGameEngine.IsWin(gameEngine.Board, action, gameEngine.PlayerTurn))
                     {
                         SetQValue(gameEngine.Board.Grid, action, WinningMoveReward);
@@ -268,7 +268,7 @@ namespace BlazorConnect4.AIModels
                         //Q(s,a)
                         double currentVal = GetQValue(gameEngine.Board.Grid, action);
 
-                        
+
                         GameBoard temporaryBoard = gameEngine.Board.Copy(); // make a non-reference copy of the gameboard.
                         //take action Q(s,a)
                         AiGameEngine.MakeMove(ref temporaryBoard, PlayerColor, action);
@@ -282,7 +282,7 @@ namespace BlazorConnect4.AIModels
                             losses++;
                             break;
                         }
-                        else if (AiGameEngine.IsDraw(temporaryBoard, opponentAction)) 
+                        else if (AiGameEngine.IsDraw(temporaryBoard, opponentAction))
                         {
                             SetQValue(gameEngine.Board.Grid, action, DrawMoveReward); //set the q values for the move that led to opponents draw move.
                             ties++;
@@ -304,7 +304,7 @@ namespace BlazorConnect4.AIModels
                         gameEngine.MakeMove(opponentAction);
 
                         action = EpsilonGreedyAction(epsilon, gameEngine.Board.Grid);
-            
+
                     }
                 }
             }

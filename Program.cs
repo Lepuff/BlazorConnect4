@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace BlazorConnect4
 {
@@ -37,12 +31,12 @@ namespace BlazorConnect4
 
 
         public static void Training()
-            {
+        {
             Stopwatch sw = new Stopwatch();
             sw.Start();
             Console.WriteLine("started loading AI's");
 
-            
+
             AIModels.QAgent RedAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/RedV4.bin");
             AIModels.QAgent YellowAi = (AIModels.QAgent)AIModels.AI.FromFile("Data/YellowV4.bin");
 
@@ -80,18 +74,18 @@ namespace BlazorConnect4
             Console.WriteLine("saving AI's");
             RedAi.ToFile("Data/RedV4.bin");
             YellowAi.ToFile("Data/YellowV4.bin");
-            
 
 
 
 
-            ts = sw.Elapsed; ts = sw.Elapsed;
+
+            ts = sw.Elapsed;
             sw.Stop();
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
             Console.WriteLine("RunTime " + elapsedTime);
-            
+
             Console.WriteLine("Done Saving");
             Console.WriteLine();
         }
