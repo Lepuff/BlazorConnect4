@@ -93,13 +93,13 @@ namespace BlazorConnect4.Model
 
 
     }
-
-    public class GameEngineTwo
+    //game engine for training the AI's
+    public class AiGameEngine
     {
         public GameBoard Board { get; set; }
         public CellColor PlayerTurn { get; set; }
 
-        public GameEngineTwo()
+        public AiGameEngine()
         {
             Board = new GameBoard();
             PlayerTurn = CellColor.Red;
@@ -133,7 +133,7 @@ namespace BlazorConnect4.Model
         public static bool IsDraw(GameBoard gameboard , int action)
         {
             GameBoard temp = gameboard.Copy();
-            GameEngineTwo.MakeMove(ref temp, CellColor.Yellow, action);
+            AiGameEngine.MakeMove(ref temp, CellColor.Yellow, action);
 
             for (int i = 0; i < 7; i++)
             {
@@ -155,7 +155,7 @@ namespace BlazorConnect4.Model
             int width = 7;
             bool isWin = false;
             GameBoard temp = gameBoard.Copy();
-            bool validmove = GameEngineTwo.MakeMove(ref temp ,player,action);
+            bool validmove = AiGameEngine.MakeMove(ref temp ,player,action);
             Cell[,] state = temp.Grid;
             Debug.Assert(validmove);
             
@@ -303,6 +303,8 @@ namespace BlazorConnect4.Model
 
 
     }
+
+    //game engine for the normal game
 
     public class GameEngine
     {

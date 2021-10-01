@@ -65,11 +65,11 @@ namespace BlazorConnect4
                 Console.WriteLine(i);
                 if (i % 2 == 0)
                 {
-                    YellowAi.WorkoutV2(RedAi, 1000);
+                    YellowAi.Workout(RedAi, 1000);
                 }
                 else
                 {
-                    RedAi.WorkoutV2(YellowAi, 1000);
+                    RedAi.Workout(YellowAi, 1000);
                 }
             }
             ts = sw.Elapsed;
